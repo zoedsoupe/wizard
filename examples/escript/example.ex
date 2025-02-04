@@ -14,11 +14,18 @@ defmodule Escript.Example do
   """
 
   use Nexus.CLI, otp_app: :nexus_cli
+  alias Nexus.CLI.Helpers
 
   defcommand :echo do
     description "Command that receives a string as argument and prints it."
 
     value :string, required: true
+  end
+
+  defcommand :greet do
+    description "Greets the user by asking his name"
+
+
   end
 
   defcommand :fizzbuzz do
@@ -49,6 +56,12 @@ defmodule Escript.Example do
   @impl true
   def handle_input(:echo, %{value: value}) do
     IO.puts(value)
+  end
+
+  def handle_input(:greet, _args) do
+    name = Helpers.ask("Whats your name?")
+    Helpers.say_success("Hello, #{name}!")
+    :ok
   end
 
   def handle_input(:fizzbuzz, %{value: value}) when is_integer(value) do
